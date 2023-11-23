@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejericio 6</title>
+</head>
+<body>
+    <p>Si per exemple es considera la classe Array, esta no disposa d'un mètode que indique totes les
+    posicions d'un element dins d'un array
+    Modificant el prototip amb què es construïxen els objectes de tipus Array, afegir esta funcionalitat
+    </p>
+    <h1>Ejercicio #6</h1>
+    <script>
+        Array.prototype.posic= function (haystack){
+            let arrpos=[];
+            for(let i=0;i<this.length;i++){
+                if(this[i]===haystack){
+                    arrpos.push(i);
+                }
+            }
+            return arrpos;
+        }
+
+        let arr=[1,2,3,1,5,9,1];
+        document.write(arr);
+        document.write("<br>");
+        document.write(arr.posic(1));
+    </script>
+</body>
+</html>

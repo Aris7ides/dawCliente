@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejericio 4</title>
+</head>
+
+<body>
+    <!--Estendre la classe String perquè permeta truncar una cadena de text a una grandària indicat com a
+    paràmetre :
+        var cadena = "hola mundo";
+        cadena2 = cadena.truncar(6); // cadena2 = "hola m"
+    Modificar la funció anterior perquè permeta definir el text que indica que la cadena s'ha truncat :
+        var cadena = "hola mundo";
+        cadena2 = cadena.truncar(6, '...'); // cadena2 = "hol…"-->
+    <h1>Ejercicio #4</h1>
+
+    <script>
+        String.prototype.truncar=function (len, str){
+            let lentrunc=(str.length>len) ? str.length-len : len-str.length; //revisar si es len es menor a los caracteres pasados
+
+            let strtrunc="";
+            for(let i=0;i<lentrunc;i++){
+                strtrunc+=this.charAt(i);
+            }
+            strtrunc+=str;
+            let arrstr=str.split("");
+            while(strtrunc.length<len){//la cadena se rellena hasta que sea igual a la longitud dada
+                let j=0;
+                strtrunc+=arrstr[j];
+                j++;
+            }
+            return strtrunc;
+        }
+
+        let cadena=prompt("Introdzca una cadena");
+        let len=prompt("Introduzca caundo se trnca la cadena")
+        let cadenatrunc=cadena.truncar(len,"...");
+        document.write(cadenatrunc);
+    </script>
+</body>
+
+</html>

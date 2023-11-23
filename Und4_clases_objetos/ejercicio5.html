@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 5</title>
+</head>
+<body>
+    <p>
+    Afegir a la classe Array un mètode cridat sense() que permeta filtrar els elements de l'array original
+    i obtinga un nou array amb tots els valors diferents a l'indicat :
+    var array1 = [1, 2, 3, 4, 5];
+    var filtrado = array1.sense(4); // filtrado = [1, 2, 3, 5]
+    </p>
+    <h1>Ejercicio #5</h1>
+    <script>
+        Array.prototype.sense=function (del){
+            let arrNew=[];
+            this.forEach(ele => {
+                if(ele !== del){
+                    arrNew.push(ele);
+                }
+            });
+            return arrNew;
+        }
+        let arrOld= [1,2,3,4,5,6,8,7,4,5];
+        document.write(arrOld + "<br><br>");
+        document.write(arrOld.sense(4));
+    </script>
+</body>
+</html>

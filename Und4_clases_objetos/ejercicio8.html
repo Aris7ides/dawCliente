@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 8</title>
+</head>
+<body>
+    <p>
+        Sobreescriure l'objecte Object perquè incloga un mètode cridat implementa() i que indique si
+        l'objecte posseïx el mètode el nom del qual se li passa com a paràmetre.
+    </p>
+    <h1>Ejercicio #8</h1>
+    <script>
+        Object.prototype.implementa=function (haystack){
+            return typeof this[haystack] === 'function';
+        }
+
+        let str="5";
+        let met="valueOf";
+        if(str.implementa(met)){
+            document.write(`El metodo ${met} es parte del objeto ${typeof str}`);
+        }else{
+            document.write(`${met} no forma parte del objeto ${typeof str}`);
+        }
+    </script>
+</body>
+</html>

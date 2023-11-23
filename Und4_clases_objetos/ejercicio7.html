@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 7</title>
+</head>
+<body>
+    <p>Estendre l'objecte Array perquè permeta afegir nous elements al final de l'array amb la possibilitat
+    d'indicar si es permeten elements duplicats o no</p>
+    <h1>Ejercicio #7</h1>
+    <script>
+        Array.prototype.afegir=function(value,bool){
+        if(this.includes(value)){
+            if(bool){
+                this.push(value);
+            }
+        }else{
+            this.push(value);
+        }
+        }
+        let arr=[1,2,3,5,9];
+        document.write(arr);
+        document.write("<br>");
+        arr.afegir(1,true);
+        document.write(arr);
+    </script>
+</body>
+</html>

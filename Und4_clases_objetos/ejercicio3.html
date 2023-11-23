@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3</title>
+</head>
+
+<body>
+    <p>Com hem vist la classe String no té un mètode reverse() i hem hagut d’implementar-ho.
+    En este exercici ampliar la funcionalitat de la classe String perquè sí que disposem d'esta utilitat</p>
+    <h1>Ejercicio #3</h1>
+    <script>
+        String.prototype.reverse = function () {
+            var letters = this.split("");
+            var lettersReverse = letters.reverse();
+            var strlettersReverse = lettersReverse.join("");
+            return strlettersReverse;
+        }
+
+        var cadena = "es una cadena";
+        document.write(cadena + "<br>" + cadena.reverse());
+    </script>
+</body>
+
+</html>

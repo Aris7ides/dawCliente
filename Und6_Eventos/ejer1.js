@@ -8,12 +8,23 @@
 // (display : none i display : block)
 
 
-let aEnlaces = document.body.getElementsByTagName('a');
-for (let i = 0; i < aEnlaces.length; i++) {
-    aEnlaces[i].addEventListener("click", ocultar);
-}
+let aEnlaces = document.body.querySelectorAll('a');
+aEnlaces.forEach(enlace => {
+    enlace.addEventListener("click",hideShow);
+});
 
+function hideShow(evento) {
+    evento.preventDefault();
+    let parrafo=evento.target.previousElementSibling;
+    if(parrafo.style.display==="none"){
+        parrafo.style.display='block';
+    }else{
+        parrafo.style.display="none";
+    }
 
-function ocultar() {
-    alert("algo");
+    if(evento.target.textContent==="Mostrar Contenido"){
+        evento.target.textContent="Ocultar Contenido";
+    }else{
+        evento.target.textContent="Mostrar Contenido";
+    }
 }

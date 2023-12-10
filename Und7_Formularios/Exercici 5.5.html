@@ -1,0 +1,82 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Exercici 6.2</title>
+
+    <style type="text/css">
+        body {
+            font-family: arial, helvetica;
+        }
+
+        form {
+            width: 800px;
+            margin: 20px auto 0 auto;
+        }
+
+        label {
+            float: left;
+            width: 200px;
+            font-weight: bold;
+        }
+
+        input[type="submit"] {
+            margin: 20px 0 0 200px;
+            display: inline;
+        }
+
+        input[type="button"] {
+            margin: 20px 0 0 100px;
+            display: inline;
+        }
+    </style>
+</head>
+<!--Es proporciona una pàgina web amb un formulari.
+a) El botó Empezar de nuevo resetearà les dades introduïts
+b) Es comprovarà les dades obligatories (amb *) quan es perda el focus.
+c) Quan es polse el botó enviar se comprovarà ( si el camp està omplit)
+1) Que el dni correspon amb la lletra.
+2) Que l’edat està entre 1 i 99
+3) Que el telèfon es correcte (no té més de 9 digits).
+4) Que el correu electrònic s’ha escrit en els dos camps igual y tenen el carácter @
+d) Al seleccionar la província (Alicante, Castellón, Valencia) es mostraran les localitats
+corresponents en el select localitat (les localitats estaràn emmagatzemades en arrays dins de la
+pàgina)
+-->
+
+<body>
+    <form action="servidor.php" method="POST" id="registro" name="nRegistro">
+        <fieldset>
+            <legend>Información de contacto</legend>
+            <label>Nombre *:</label><input type="text" name="nombre" size="30"></input></br></br>
+            <label>Edad:</label><input type="text" name="edad" size="3"></input></br></br>
+            <label>DNI:</label><input type="text" name="dni" size="9"></input>--<input type="text" name="letradni"
+                maxlength="1" size="1"></input></br></br>
+            <label>Direccion *:</label><input type="text" name="direccion" size="50"></input></br></br>
+            <label>Provincia :</label><select name="provincia">
+                <option value="">Provincia</option>
+                <option value="A">Alicante</option>
+                <option value="CS">Castellón</option>
+                <option value="V">Valencia</option>
+            </select></br></br>
+            <label>Localidad :</label><select name="localidad" disabled="disabled"></select></br></br>
+            <label>Codigo Postal *:</label><input type="text" name="codigopostal" size="5"></input></br></br>
+            <label>Telefono de contacto:</label><input type="text" name="telefono" size="9"></input></br></br>
+            <label>Correo electronico :</label><input type="text" name="email" size="50"></input></br></br>
+            <label>Repita su correo electronico :</label><input type="text" name="repeatemail"
+                size="50"></input></br></br>
+            <input type="submit" value="Enviar los datos"><input type="button" id="limpiar" value="Empezar de nuevo">
+        </fieldset>
+    </form>
+
+    <script>
+        let oForm=document.forms[0];
+        document.getElementById("limpiar").setAttribute("type","reset");
+
+
+    </script>
+</body>
+
+</html>

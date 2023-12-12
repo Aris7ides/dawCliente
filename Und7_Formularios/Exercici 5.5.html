@@ -47,7 +47,7 @@ pàgina)
 -->
 
 <body>
-    <form action="servidor.php" method="POST" id="registro" name="nRegistro">
+    <form action="" method="POST" id="registro" name="nRegistro">
         <fieldset>
             <legend>Información de contacto</legend>
             <label>Nombre *:</label><input type="text" name="nombre" size="30"></input></br></br>
@@ -73,9 +73,89 @@ pàgina)
 
     <script>
         let oForm=document.forms[0];
+
+        //a => cambio el atributo type a reset
         document.getElementById("limpiar").setAttribute("type","reset");
 
+        //b => segun los labels que tengan *, cogiendo a sus nodos hermanos, cambio el atributo del input a required y aplico el evento blur
+        let labels=document.querySelectorAll("label");
+        for(let i=0;i<labels.length;i++){
+            if(labels.item(i).textContent.includes('*')){
+                let input=labels.item(i).nextSibling;
+                input.addEventListener("blur",function (){
+                    this.setAttribute("required","required");
+                    if(this.value===""){
+                        labels.item(i).style.color="red";
+                        console.log(this);
+                    }else{
+                        labels.item(i).style.color="black";
+                    }
+                });
+            }
+        }
 
+        //c 
+        //c1 => Comprobar DNI
+        function checkDNI(){
+            let numDni =document.getElementsByName("dni").item(0).value;
+            let letraDni=document.getElementsByName("letradni").item(0).value;
+            let dniCompleto=numDni+""+letraDni;
+            const letrasDNI = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'];
+            // Comprobar que el DNI tiene un formato válido
+            const dniRegex = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/;
+            if (!dniRegex.test(dniCompleto) || letrasDNI[numDni%23]!==letraDni.toUpperCase()) {
+              return false;
+            }
+            return true;
+        }
+
+
+        //c2 => edad entre 1 y 99
+        function checkEdad(){
+            let edad=document.getElementsByName("edad").item(0).value;
+            if(edad >0 && edad <100){
+                return true;
+            }
+            return false;
+        }
+
+        //c3 => telefono correcto no mas de 9 digitos
+        function checkTlf(){
+            let tlf=document.getElementsByName("telefono").item(0).value;
+            if(tlf.length===9){
+                return true;
+            }
+            return false;
+        }
+
+        //c4 => correo electronico
+        function checkEmail(){
+            let email1=document.getElementsByName("email").item(0);
+
+            let email2=document.getElementsByName("repeatemail").item(0);
+
+            let re=/^\w+@\w+\.\w+$/;
+            if(email1.value===email2.value){
+                if(re.test(email1.value) && re.test(email2.value)){
+                    return true;
+                }
+            }
+            email1.style.borderColor="red";
+            email2.style.borderColor="red";
+            return false;
+        }
+
+        //c => comprobar antes de enviar
+        oForm.addEventListener("submit",function (evento){
+            if(checkDNI() && checkEdad() && checkEmail() && checkTlf){
+                this.submit();
+                this.disabled=true;
+            }else{
+                evento.preventDefault();
+            }
+        });
+
+        //d => añadir localidades
     </script>
 </body>
 

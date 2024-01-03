@@ -75,7 +75,8 @@ pàgina)
         let oForm=document.forms[0];
 
         //a => cambio el atributo type a reset
-        document.getElementById("limpiar").setAttribute("type","reset");
+        let bttnReset =document.getElementById("limpiar");
+        bttnReset.setAttribute("type","reset");
 
         //b => segun los labels que tengan *, cogiendo a sus nodos hermanos, cambio el atributo del input a required y aplico el evento blur
         let labels=document.querySelectorAll("label");
@@ -85,7 +86,6 @@ pàgina)
                 input.addEventListener("blur",function (){
                     this.setAttribute("required","required");
                     if(this.value===""){
-                        labels.item(i).style.color="red";
                         alert(`el campo ${this.name} esta vacio, es obligatorio`);
                     }
                 });
@@ -154,6 +154,45 @@ pàgina)
         });
 
         //d => añadir localidades
+        const locali=[
+            {"alicante" : ["algo1", "algo 2", "alguito 3"]},
+            {"castellon": ["pave4", "pave2", "pave1"]},
+            {"valencia" : ["PATERNA", "BURJASSOT", "MISLATA"]}
+        ];
+
+        //locali[0]['valencia'][0]
+
+        oForm["provincia"].addEventListener("change",function (){
+            let sel=document.getElementsByName("localidad");
+            let indexProv=this.selectedIndex;
+            let strIndex;
+
+            if(indexProv!==0){
+                oForm["localidad"].disabled=false;
+                //necesario para referenciar en el array
+                switch (indexProv){
+                    case 1: strIndex="alicante"; break;
+                    case 2: strIndex="castellon"; break;
+                    case 3: strIndex="valencia"; break; 
+                }
+                //borra los nodos del elemento select, para que solo aparezcan los necesarios
+                while(sel[0].firstChild){
+                    sel[0].removeChild(sel[0].firstChild);
+                }
+                //bucle for que crea los elementos option y los añade al select localidades 
+                for(let i=0;i<locali[indexProv-1][strIndex].length;i++){
+                    let opt=document.createElement("option");
+                    opt.value=locali[indexProv-1][strIndex][i];
+                    opt.textContent=locali[indexProv-1][strIndex][i];
+                    oForm["localidad"].append(opt);
+                }
+            }else{
+                while(sel[0].firstChild){
+                    sel[0].removeChild(sel[0].firstChild);
+                }
+            }
+        });
+    
     </script>
 
     <script src="ejer5-6.js"></script>

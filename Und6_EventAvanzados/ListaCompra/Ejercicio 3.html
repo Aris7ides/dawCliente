@@ -2,41 +2,41 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>carrito 3</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <script>
-        window.onload = function() {
-          // Variables
-          const baseDeDatos = [
+        // Variables
+        const baseDeDatos = [
               {
                   id: 1,
                   nombre: 'Patata',
                   precio: 1,
                   imagen: 'patata.jpg'
-              },
-              {
-                  id: 2,
-                  nombre: 'Cebolla',
-                  precio: 1.2,
-                  imagen: 'cebolla.jpg'
-              },
-              {
-                  id: 3,
-                  nombre: 'Calabacin',
-                  precio: 2.1,
-                  imagen: 'calabacin.jpg'
-              },
-              {
-                  id: 4,
-                  nombre: 'Fresas',
-                  precio: 0.6,
-                  imagen: 'fresas.jpg'
-              }
-
-          ];
-
-          const divisa = '€';
+                },
+                {
+                    id: 2,
+                    nombre: 'Cebolla',
+                    precio: 1.2,
+                    imagen: 'cebolla.jpg'
+                },
+                {
+                    id: 3,
+                    nombre: 'Calabacin',
+                    precio: 2.1,
+                    imagen: 'calabacin.jpg'
+                },
+                {
+                    id: 4,
+                    nombre: 'Fresas',
+                    precio: 0.6,
+                    imagen: 'fresas.jpg'
+                }
+                
+            ];
+            
+            const divisa = '€';
+        window.onload = function() {
           const DOMitems = document.querySelector('#items');
 
           // Funciones
@@ -84,8 +84,63 @@
           renderizarProductos();
         };
 
+        /*Farem un carro de la compra diferent on al triar un element s'afija a la llista, però a
+        l'hora de triar novament el mateix element s'incremente en una unitat en el carro de la
+        compra*/
+
+        let arrID=[];
+        let carrito=[];
+        let indexCarrito=0;
+
+        let precioTotal=0;
+
+        class Carrito{
+            constructor(nombre, precio){
+                this.und=1;
+                this.nombre=nombre;
+                this.precio=precio;
+                this.total=0;
+            }
+
+            setUnd(){
+                this.und++;
+                this.total=this.und*this.precio;
+            }
+        }
+        
+        let total=document.getElementById("total");
+
         function anyadirProductoAlCarrito() {
-            
+            let ul=document.getElementById("carrito");//lista de carrito
+            let idpr=this.getAttribute("marcador"); //id de producto
+
+            if(!arrID.includes(idpr)){
+                arrID.push(idpr);//para que no se repita el producto
+                
+                let il=document.createElement("il");//elemento de la lista
+                il.id=idpr; //id igual al id del producto
+                //objeto que es añadido al carrito
+                let prod=new Carrito(baseDeDatos[idpr-1].nombre, baseDeDatos[idpr-1].precio);
+                carrito.push(prod);
+                
+
+                il.textContent=`${prod.und} x ${prod.nombre} - ${prod.precio} €`;
+                ul.appendChild(il);
+            }else{
+                let il2=document.getElementById(idpr);
+                carrito[idpr-1].setUnd();
+                
+                il2.textContent=`${carrito[idpr-1].und} x ${carrito[idpr-1].nombre} - ${carrito[idpr-1].total} €`;
+                
+            }
+
+
+            document.getElementById("boton-vaciar").addEventListener("click", function (){
+                let ul=document.getElementById("carrito");
+                while(ul.firstElementChild){
+                    ul.removeChild(ul.firstChild);
+                }
+            });
         }
     </script>
 </head>

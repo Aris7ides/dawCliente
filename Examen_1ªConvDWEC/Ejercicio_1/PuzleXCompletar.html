@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style type="text/css">
+    img {
+      border: 1;
+      height: 100px;
+      width: 100px;
+    }
+
+    table {
+      margin: auto;
+    }
+
+    input {
+      margin-left: 35%;
+    }
+  </style>
+
+  <script language="JavaScript">
+
+    var dTiempoInicial = new Date();
+    var aImag = [];
+    var path = "imagenes/";
+    var pos = 0;
+
+    //Se crean los nombres de las imagenes en aImag[] y posteriormente movemos los elementos de 
+    //las imagenes de manera aleatoria.
+    function fnPreparaPuzzle() {
+      //Cargamos en el array this.aImag todos los nombres de imagenes.
+      for (var i = 1; i < 16; i++) {
+        aImag[i - 1] = i + ".gif";
+      }
+      aImag[i - 1] = "blanco.gif"; //Establecemos la imagen blanco
+      pos = i - 1;
+      /*Ahora vamos a mover los nombres de las imagenes para que 
+        esten de manera aleatoria repartidos en la matriz.*/
+      for (i = 0; i < 16; i++) {
+        var iAleatorio = Math.round(Math.random() * 15);
+        var sAux = aImag[i];
+        aImag[i] = aImag[iAleatorio];
+        aImag[iAleatorio] = sAux;
+        //Si hemos cambiado la posición del espacio en blanco--> actualizamos pos.
+        if (pos == iAleatorio)
+          pos = i;
+        if (pos == i)
+          pos = iAleatorio;
+      }
+    }
+
+    //Actualiza el atributo src de las imagenes con los datos de aImag
+    function fnDibuja() {
+      /*  HACER: Deberemos actualizar los valores del puzle con los datos almacenados en aImag(array que
+          contiene el nuevo orden de las imagenes)
+      */
+      
+      let imgActuales=document.querySelectorAll('td img');
+
+      for(let i=0;i<aImag.length;i++){
+        //Modifico el atributo src de las imagenes
+        imgActuales.item(i).src=path+aImag[i];
+        
+        //MOdifico los atributos id de cada imagen de acuerdo a su src
+        let idNuevo="";
+        if(aImag[i].length===5){
+          idNuevo=aImag[i].charAt(0);       
+        }else if(aImag[i].length===6){
+          idNuevo=aImag[i].charAt(0)+aImag[i].charAt(1);
+        }else{
+          idNuevo="0";
+        }
+        imgActuales.item(i).id=idNuevo;
+
+        //Le asigno el evento click a todas las imagenes
+        imgActuales.item(i).onclick=fnCambio;
+      }
+    }
+
+    //Ordena todo el puzle menos el último elemento actualizando el contenido de aImag. finalmente llama a
+    // fnDibuja para mostrar datos por pantalla
+    function fnCasOrdena() {
+      for (var i = 0; i < 14; i++) {
+        aImag[i] = (i + 1) + ".gif"
+      };
+      aImag[i] = "blanco.gif";
+      pos = i;
+      aImag[15] = "15.gif";
+      fnDibuja();
+    }
+
+    //Lleva a cabo el intercambio de fichas si es posible (tiene la ficha vacia contigua)
+    // lo pinta en pantalla y comprueba si esta solucionado.
+    function fnCambio(evento) {
+      /*HACER: Tendremos que comprobar si podemos realizar el intercambio de fichas del puzle,
+        en caso afirmativo realizaremos el cambio de fichas en el array aImag[], lo dibujaremos 
+        en pantalla y por último comprobaremos si ya esta solucionado 
+        */
+       
+      var nId = this.id;
+      console.log(nId);
+      //Comprobamos si es posible mover la ficha.
+      if((nId % 4 != 3 && nId + 1 == pos) || (nId > 3 && nId - 4 == pos) || (nId < 12 && nId + 4 == pos) || (nId % 4 > 0 && nId - 1 == pos)){
+
+      }
+      fnComprueba();
+
+
+    }
+    //Si esta solucionado el puzle calcula el tiempo transcurrido y muestra un mensaje indicandolo.
+    function fnFinaliza() {
+      /*HACER: Calculamos el tiempo que ha tardado en solucionarlo dandole valor a las variables 
+      minutos y segundos que se muestran en el mensaje a continuación*/
+      
+      let minutos=dTiempoInicial.getDate() /10000;
+      let segundos=dTiempoInicial.getDate() /1000;
+      alert("SOLUCIONADO EN " + minutos + " MINUTOS  " + segundos + " SEGUNDOS  ");
+    }
+    //Comprueba que el puzle esta ordenado.
+    function fnComprueba() {
+      /*HACER: Comprueba que el puzle esta ordenado, en cuyo caso llamará a fnFinaliza() quien
+      mostrará al usuario que ha terminado y cuanto tiempo le ha costado.
+      Si no esta solucionado la función no hará nada.
+      */
+
+      let resuelto=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0];
+      let comprobacion=[];
+      let ordenImagenes=document.querySelectorAll('td img');
+      for(let i=0;i<ordenImagenes.length;i++){
+        comprobacion.push(parseInt(ordenImagenes.item(i).id));
+      }
+
+      if(comprobacion==resuelto){
+        fnFinaliza();
+      }
+    }
+    
+    function fnInicializa() {
+      fnPreparaPuzzle();
+      fnDibuja();
+    }
+
+    //Al cargar la página inicializamos el puzzle (mezcla de piezas) y lo dibujamos.
+    //Además asignamos los manejadores de evento a las imagenes y al botón casi ordena.
+
+    /*HACER: Creamos el manejador de eventos para cuando la página se carge:
+        *Cuando se carge tendremos que llamar fnInicializa() que prepara el puzle mezclando las fichas 
+        (llamanando a fnPreparaPuzzle()) y lo actualizará dibujándolo por pantalla llamando a la función
+        fnDibuja()
+        
+        *Le asignamos el manejador fnCambio() al evento click de todas las imagenes del puzle 
+
+        *Por último asignamos el manejador fnCasOrdena() al evento click del botón Casi Ordena del 
+        formulario, este botón nos dejará preparado el puzle para solucionarlo en un movimiento 
+        y así facilitarnos las comprobaciones.
+    */
+   
+    //Cuando la ventana carga llama a fnInicializa
+    window.addEventListener('load',fnInicializa); 
+  </script>
+</head>
+
+<body>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <img id="0" src="imagenes/1.gif" border="1">
+        </td>
+        <td>
+          <img id="1" src="imagenes/2.gif" border="1">
+        </td>
+        <td>
+          <img id="2" src="imagenes/3.gif" border="1">
+        </td>
+        <td>
+          <img id="3" src="imagenes/4.gif" border="1">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img id="4" src="imagenes/5.gif" border="1">
+        </td>
+        <td>
+          <img id="5" src="imagenes/7.gif" border="1">
+        </td>
+        <td>
+          <img id="6" src="imagenes/15.gif" border="1">
+        </td>
+        <td>
+          <img id="7" src="imagenes/blanco.gif" border="1">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img id="8" src="imagenes/8.gif" border="1">
+        </td>
+        <td>
+          <img id="9" src="imagenes/10.gif" border="1">
+        </td>
+        <td>
+          <img id="10" src="imagenes/11.gif" border="1">
+        </td>
+        <td>
+          <img id="11" src="imagenes/6.gif" border="1">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img id="12" src="imagenes/12.gif" border="1">
+        </td>
+        <td>
+          <img id="13" src="imagenes/9.gif" border="1">
+        </td>
+        <td>
+          <img id="14" src="imagenes/13.gif" border="1">
+        </td>
+        <td>
+          <img id="15" src="imagenes/14.gif" border="1">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <input type="button" value="Casi Ordena" />
+
+  <script>
+    document.getElementsByTagName('input')[0].addEventListener('click',fnCasOrdena);
+  </script>
+</body>
+
+</html>

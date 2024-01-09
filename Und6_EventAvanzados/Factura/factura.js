@@ -53,7 +53,7 @@ select.addEventListener("change",function (){
     cpImporte.value=cpPrecio.value*cpUnidades.value;
 });
 
-cpUnidades.addEventListener("change",function (){
+cpUnidades.addEventListener("input",function (){
     cpImporte.value=cpPrecio.value*this.value;
 });
 

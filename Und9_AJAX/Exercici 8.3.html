@@ -48,5 +48,44 @@
         gravida. Donec et augue vitae nulla posuere hendrerit. Nulla vehicula scelerisque massa. Phasellus eget
         lorem id quam molestie ultrices. Integer ac ligula sit amet lectus condimentum euismod. Sed malesuada orci eu neque.</p>
     </div>
+
+    <script>
+        let ticker=document.getElementById("ticker");
+        let stopPlay=document.getElementById("detener");
+        let anterior=document.getElementById("anterior");
+        let siguiente=document.getElementById("siguiente");
+
+        let request=false;
+
+        function peticion(){
+            request=false;
+
+            if(window.XMLHttpRequest){
+                request=new XMLHttpRequest();
+            }else if(window.ActiveXObject){
+                request=new ActiveXObject();
+            }
+
+            if(!request){
+                alert("error 1");
+            }
+            
+            request.onreadystatechange=noticia;
+            request.open('GET',"./Exercici 8.3.php",true);
+            request.send(null);
+        }
+
+        function noticia(){
+            if(request.readyState==4){
+                if(request.status==200){
+                    let num=request.responseText;
+                    ticker.innerHTML=num;
+                    alert(num);
+                }
+            }
+        }
+
+        window.addEventListener("load",peticion);
+    </script>
 </body>
 </html>

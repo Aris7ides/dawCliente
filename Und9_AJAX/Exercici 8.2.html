@@ -42,5 +42,51 @@
             <h2>Código de estado:</h2>
             <div id="codigo"></div>
         </div>
+
+        <script type="text/javascript">
+            let url=document.getElementById("recurso");
+            let bttn=document.getElementById("enviar").addEventListener("click",makeRequest);
+
+            window.addEventListener("load",function(){
+                url.value=this.location;
+            });
+
+            let http_request=false;
+
+            function makeRequest(){
+                http_request=false;
+
+                if(window.XMLHttpRequest){
+                    http_request=new XMLHttpRequest();
+                }else if(window.ActiveXObject){
+                    http_request=new ActiveXObject();
+                }
+
+                if(!http_request){
+                    alert("hubo un error");
+                    return false;
+                }
+
+                http_request.onreadystatechange=show;
+                http_request.open("GET",url.value,true);
+                http_request.send(null);
+            }
+
+            let contenido=document.getElementById("contenidos");
+            let estatus=document.getElementById("estados");
+            let cabeceras=document.getElementById("cabeceras");
+            let codigo=document.getElementById("codigo");
+
+            function show(){
+                estatus.innerText=http_request.readyState;
+                codigo.innerText=http_request.status;
+                cabeceras.innerText=http_request.getAllResponseHeaders();
+                if(http_request.readyState==4){//estado de la peticion
+                    if(http_request.status==200){//codigo de estado
+                        contenido.innerText=http_request.responseText;
+                    }
+                }
+            }
+        </script>
     </body>
 </html>

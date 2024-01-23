@@ -7,5 +7,51 @@
 </head>
 <body>
     <div id="info"></div>
+
+    <script type="text/javascript">
+        let div=document.getElementById("info");
+        //adicional le creo un enlace para hacer la peticion
+        let p=document.createElement("p");
+        p.style.cursor="pointer";
+        p.textContent="Hacer peticion";
+        div.append(p);
+
+        //creo la variable e inicializo en false
+        let http_request=false;
+
+        //funcion donde se crea la instancia
+        function hazPeticion(){
+            http_request=false;
+
+            if(window.XMLHttpRequest){
+                http_request= new XMLHttpRequest();
+            }else if(window.ActiveXObject){
+                http_request = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            //si sigue siendo false, significa que ha habido un problema
+            if (!http_request) {
+                alert('Falla :( No es posible crear una instancia XMLHTTP');
+                return false;
+            }
+            //le paso la funcion que tratara el contenido
+            http_request.onreadystatechange=muestraContenido;
+            //funcion que obtiene el archivo
+            http_request.open('GET', 'Exercici 8.1.txt',true);
+            http_request.send(null);//funcion que envia al servidor en caso de ser POST
+        }
+
+        function muestraContenido(){
+            if(http_request.readyState==4){//Estado de la peticion, 4=completa
+                if(http_request.status==200){//codigo de status 200=todo bien
+                    let text=http_request.responseText; //contenido del archivo
+                    div.innerHTML=text;
+                }else{
+                    alert("HUbo un error");
+                }
+            }
+        }
+
+        p.addEventListener("click",hazPeticion);
+    </script>
 </body>
 </html>

@@ -51,23 +51,20 @@
 
     <script>
         let ticker=document.getElementById("ticker");
-        let stopPlay=document.getElementById("detener");
+        let detener=document.getElementById("detener");
         let anterior=document.getElementById("anterior");
         let siguiente=document.getElementById("siguiente");
 
-        let request=false;
+        let contAntSig=0;
+
+        let request=null;
 
         function peticion(){
-            request=false;
 
-            if(window.XMLHttpRequest){
+            if(request == null){
                 request=new XMLHttpRequest();
-            }else if(window.ActiveXObject){
-                request=new ActiveXObject();
-            }
-
-            if(!request){
-                alert("error 1");
+            }else{
+                request.abort();
             }
             
             request.onreadystatechange=noticia;
@@ -79,13 +76,70 @@
             if(request.readyState==4){
                 if(request.status==200){
                     let num=request.responseText;
-                    ticker.innerHTML=num;
-                    alert(num);
-                }
+                    let tiempo=new Date();
+                    let hora=tiempo.getHours()+":"+tiempo.getMinutes()+":"+tiempo.getSeconds()+"seg";
+                    let txt=num+" "+hora;
+                    ticker.innerHTML=txt;
+                    ticker.style.backgroundColor="yellow"
+                    //logica siguiente anterior
+                    arrNoticias.push(txt);
+                    contAntSig=arrNoticias.length-1;
+               }
             }
         }
 
-        window.addEventListener("load",peticion);
+        let arrNoticias=[];
+
+        //variable par el idInterval
+        let idInterval;
+
+        function repetidora(){
+            //compruebo que el setInterval no tiene nda aun
+            if(!idInterval){
+                idInterval=setInterval(peticion, 5000);
+            }
+        }
+
+        //parar
+        function stop(){
+            clearInterval(idInterval);
+            idInterval=null;
+        }
+
+        //boton de detener
+        detener.addEventListener("click",function(){
+            if(idInterval){
+                stop();
+                this.value="Continuar";
+            }else{
+                repetidora();
+                this.value="Detener";
+            }
+        })
+
+        //FALTA LOS BOTONES DE SIGUIENTES Y ANTERIOR
+
+        siguiente.addEventListener("click",function (){
+            if(contAntSig<arrNoticias.length-1){
+                if(idInterval){
+                    detener.click();
+                }
+                ticker.innerHTML=arrNoticias[contAntSig+1];
+                contAntSig++;
+            }
+        });
+        
+        anterior.addEventListener("click",function (){
+            if(contAntSig>0){
+                if(idInterval){
+                    detener.click();
+                }
+                ticker.innerHTML=arrNoticias[contAntSig-1];
+                contAntSig--;
+            }
+        });
+
+        window.addEventListener("load",repetidora);
     </script>
 </body>
 </html>

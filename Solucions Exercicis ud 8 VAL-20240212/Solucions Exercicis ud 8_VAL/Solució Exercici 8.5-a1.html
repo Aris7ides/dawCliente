@@ -22,7 +22,7 @@
 				peticion_http = inicializa_xhr();
 				if(peticion_http) {
 					peticion_http.onreadystatechange = procesaRespuesta;
-					peticion_http.open("POST", "http://localhost/Exercici 8.5-a.php",true);
+					peticion_http.open("POST", "Exercici 8.5-a.php",true);
 					peticion_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 					peticion_http.send("login="+login+"&nocache="+Math.random());
 				}

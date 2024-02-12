@@ -14,4 +14,52 @@
 		</form>
 		<div id="disponibilidad"></div>
 	</body>
+
+	<!-- 1. Crear un script que comprove amb AJAXy l'ajuda del servidor si el nom triat per l'usuari està
+	lliure o no.
+	2. El script del servidor s'anomena “Exercici 8.4.php” i el paràmetre que conté el nom s'anomena
+	login.
+	3. La resposta del servidor és “si” o “no”, en funció de si el nom d'usuari està lliure i es pot utilitzar
+	o ja ha sigut ocupat per un altre usuari.
+	4. A partir de la resposta del servidor, mostrar un missatge a l'usuari indicant el resultat de la
+	comprovació.
+	Nota : Tant el fitxer “Exercici 8.4.php” com la solució han d'estar en el servidor XAMPP -->
+
+	<script>
+		let peticion = null;
+
+		let div=document.getElementById("disponibilidad");
+		let variable=document.getElementById("login");
+		let eventoa=document.getElementById("comprobar");
+
+		function hazpeticion(){
+			if(window.XMLHttpRequest){
+				peticion = new XMLHttpRequest();
+			}else{
+				console.log("error de tipo crear peticion");
+			}
+			
+			peticion.onreadystatechange=procesarPeticion;
+
+			let parametros_query= 'login=' + encodeURIComponent(variable.value) + '&nocache=' + Math.random();
+			console.log(parametros_query);
+
+			//tiene que ir antes del send
+			
+			peticion.open('POST','Exercici 8.4.php', true);
+			peticion.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			peticion.send(parametros_query);
+		}
+
+		function procesarPeticion(){
+			if(peticion.readyState==4){
+				if(peticion.status==200){
+					let text=`<p>${peticion.responseText}</p>`;
+					div.innerHTML=text;
+				}
+			}
+		}
+
+		eventoa.addEventListener("click", hazpeticion);
+	</script>
 </html>
